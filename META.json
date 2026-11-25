@@ -60,6 +60,17 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/tecolicom/Text-ANSI-Image/issues"
+      },
+      "homepage" : "https://github.com/tecolicom/Text-ANSI-Image",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/tecolicom/Text-ANSI-Image.git",
+         "web" : "https://github.com/tecolicom/Text-ANSI-Image"
+      }
+   },
    "version" : "0.01",
    "x_authority" : "cpan:UTASHIRO",
    "x_contributors" : [

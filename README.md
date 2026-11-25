@@ -1,4 +1,4 @@
-
+[![Actions Status](https://github.com/tecolicom/Text-ANSI-Image/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/tecolicom/Text-ANSI-Image/actions?workflow=test) [![MetaCPAN Release](https://badge.fury.io/pl/Text-ANSI-Image.svg)](https://metacpan.org/release/Text-ANSI-Image)
 # NAME
 
 Text::ANSI::Image - images as lines of text for the terminal

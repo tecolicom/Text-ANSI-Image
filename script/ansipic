@@ -34,7 +34,7 @@ Version 0.01
 =head1 EXAMPLES
 
     ansipic logo.png
-    ansipic -w 2/ *.png | less -R
+    ansipic -w 2/ *.png | LESSUTFCHARDEF=10EEEE:p less -RX
     ansipic images/*.png | ansicolumn -c 2
 
 =head1 DESCRIPTION
@@ -86,9 +86,12 @@ anyway.
 
 To page the lines by C<less>, C<less> has to take the placeholder
 character U+10EEEE as a printable one: C<less> 632 or later does with
-C<LESSUTFCHARDEF=10EEEE:p>.
+C<LESSUTFCHARDEF=10EEEE:p>.  C<-R> passes the colors, which are the
+ids of the images, and C<-X> keeps C<less> on the screen where the
+images are: Ghostty keeps an image on the screen it is sent to, and
+does not show it on the alternate screen.
 
-    ansipic *.png | LESSUTFCHARDEF=10EEEE:p less -R
+    ansipic *.png | LESSUTFCHARDEF=10EEEE:p less -RX
 
 A search of C<less> which matches the lines, as with C<.*>, draws the
 cells in the color of its highlight instead of the image; C<ESC-u>

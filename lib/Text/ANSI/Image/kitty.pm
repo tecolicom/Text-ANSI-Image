@@ -149,7 +149,10 @@ inherit its C<TERM_PROGRAM>, which is then wrong.
 
 An image is at most 297 columns wide and 297 rows high, the number of
 the combining characters.  A pager has to take U+10EEEE as a printable
-character: C<less> 632 or later does with C<LESSUTFCHARDEF=10EEEE:p>.
+character: C<less> 632 or later does with C<LESSUTFCHARDEF=10EEEE:p>,
+and with C<-R> for the colors.  Ghostty keeps an image on the screen
+it is sent to: a pager which goes to the alternate screen after the
+images are sent, as C<less> without C<-X>, does not show them there.
 The cells that a search of C<less> highlights are drawn in its color
 instead of the image.
 

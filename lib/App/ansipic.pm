@@ -55,7 +55,7 @@ sub perform {
     }
     @ARGV or return usage();
     my $img = eval { $app->image } // do {
-	warn "ansipic: ", $@ =~ s/ at .* line \d+.*//sr, "\n";
+	warn "ansipic: ", $@ =~ s/ at .* line \d+.*//sr =~ s/\n*\z/\n/r;
 	return 2;
     };
     my $status = 0;

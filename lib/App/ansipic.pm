@@ -1,6 +1,6 @@
 package App::ansipic;
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 use v5.16;
 use warnings;

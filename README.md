@@ -88,6 +88,18 @@ them.
 
             ESC ] 7771 ; i=ID,c=COLS,r=ROWS ; FILE ESC \
 
+    - **resend** => _FILE_
+
+        **flush** also appends to _FILE_ the sequences which send the images
+        again by the paths of their files, which the terminal reads: the file
+        of the image as it is (`t=f`), or the PNG made from it, a temporary
+        file which is not removed and which the terminal removes after
+        reading it (`t=t`) (`kitty` only).  They are short, so that another
+        program can send them later: as the initialization string of **less**
+        (`LESS_TERMCAP_ti`), after it switches to the alternate screen, where
+        the images sent before are not seen in kitty and Ghostty, which keep
+        them for each screen.  The terminal must be on the same host.
+
 - **rows**(_FILE_, _OPTIONS_)
 
     Returns the rows of the image of _FILE_, as lines without newlines,

@@ -106,6 +106,43 @@ my $a = png("$dir/a.png", 64, 68);	# 4 cells wide, 2 rows high
     is(scalar(() = kitty()->rows($a, rows => 1)), 1, 'rows: one row');
 }
 
+# resend: the sequences which send them again by the path of the file
+# (t=f), or of the PNG made from it, a temporary file kept for the
+# terminal to read and remove (t=t), appended to the file of resend,
+# besides the data sent to the tty; a stub of sips makes it here
+my $resend = "$dir/resend";
+sub resent { open my $fh, '<:raw', $resend or return ''; local $/; <$fh> }
+{
+    unlink $tty, $resend;
+    my $img = kitty(resend => $resend);
+    my @rows = $img->rows($a);
+    my($r, $g, $b) = $rows[0] =~ /^\e\[38;2;(\d+);(\d+);(\d+)m/;
+    my $id = ($r << 16) | ($g << 8) | $b;
+    $img->flush;
+    my $path = encode_base64(File::Spec->rel2abs($a), '');
+    is(resent(), "\e_Ga=T,U=1,i=$id,f=100,t=f,q=2,c=4,r=2;$path\e\\", 'resend: the path of the file');
+    like(sent(), qr/^\e_Ga=T,U=1,i=$id,f=100,q=2,c=4,r=2,m=0;/, 'resend: the data is sent to the tty as well');
+
+    my $sips = "$dir/sips";
+    open my $fh, '>', $sips or die;
+    print $fh "#!/bin/sh\nwhile [ \$# -gt 1 ]; do shift; done\ncp '$a' \"\$1\"\n";
+    close $fh;
+    chmod 0755, $sips;
+    no warnings 'once';
+    local $Text::ANSI::Image::SIPS = $sips;
+    unlink $tty, $resend;
+    $img = kitty(resend => $resend);
+    @rows = $img->rows(gif("$dir/c.gif", 64, 68));
+    is(scalar @rows, 2, 'resend: the rows of a GIF');
+    $img->flush;
+    undef $img;
+    my($t, $tmp) = resent() =~ /,t=(\w),.*;(\S+?)\e\\/;
+    is($t, 't', 'resend: a temporary file for the PNG made');
+    $tmp = MIME::Base64::decode_base64($tmp);
+    ok(-s $tmp, 'resend: it is kept for the terminal');
+    unlink $tmp;
+}
+
 # without sips and ImageMagick, a large PNG is sent as it is, and a
 # GIF, which must be made PNG, is not shown
 {

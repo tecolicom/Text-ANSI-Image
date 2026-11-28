@@ -111,7 +111,10 @@ sub osc {
 }
 
 # Send the images to the terminal, in chunks of 4096 bytes of base64,
-# and forget them
+# and forget them.  With resend, the sequences which send them again
+# by the path of each file, of the file itself (t=f) or of a PNG made
+# from it (t=t), which is kept for the terminal to read and remove,
+# are appended to that file.
 sub flush {
     my $self = shift;
     my @q = @{delete $self->{_queue} // []} or return;
@@ -130,6 +133,20 @@ sub flush {
 	    print $tty $out;
 	}
 	close $tty;
+    }
+    if (defined $self->{resend} and open my $re, '>>:raw', $self->{resend}) {
+	my %temp = map { ("$_" => $_) } @{$self->{_temp} // []};
+	for my $q (@q) {
+	    my($id, $cols, $rows, $png) = @$q;
+	    my $t = 'f';
+	    if (my $tmp = $temp{$png}) {
+		$tmp->unlink_on_destroy(0);
+		$t = 't';
+	    }
+	    my $path = encode_base64(File::Spec->rel2abs($png), '');
+	    print $re "\e_Ga=T,U=1,i=$id,f=100,t=$t,q=2,c=$cols,r=$rows;$path\e\\";
+	}
+	close $re;
     }
     $self->temp_done;
 }

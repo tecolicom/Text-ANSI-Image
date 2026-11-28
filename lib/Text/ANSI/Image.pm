@@ -49,6 +49,7 @@ sub new {
 	rows  => 0,		# rows that an image may take
 	types => undef,		# types of images shown, all by default
 	osc   => 0,		# tell the file of each image (kitty)
+	resend => undef,	# file for the sequences which send them again (kitty)
 	%opt,
     }, $class;
     $obj->terminal;		# a wrong size dies here
@@ -334,6 +335,18 @@ L<ansi2pdf|https://github.com/tecolicom/App-ansi2pdf> does (default:
 off; C<kitty> only).  Terminals ignore it:
 
     ESC ] 7771 ; i=ID,c=COLS,r=ROWS ; FILE ESC \
+
+=item B<resend> => I<FILE>
+
+B<flush> also appends to I<FILE> the sequences which send the images
+again by the paths of their files, which the terminal reads: the file
+of the image as it is (C<t=f>), or the PNG made from it, a temporary
+file which is not removed and which the terminal removes after
+reading it (C<t=t>) (C<kitty> only).  They are short, so that another
+program can send them later: as the initialization string of B<less>
+(C<LESS_TERMCAP_ti>), after it switches to the alternate screen, where
+the images sent before are not seen in kitty and Ghostty, which keep
+them for each screen.  The terminal must be on the same host.
 
 =back
 

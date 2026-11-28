@@ -13,7 +13,7 @@ Text::ANSI::Image - images as lines of text for the terminal
 
 # VERSION
 
-Version 0.02
+Version 0.03
 
 # DESCRIPTION
 

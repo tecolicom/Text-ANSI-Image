@@ -2,6 +2,14 @@ Revision history for Perl extension Text-ANSI-Image
 
 {{$NEXT}}
 
+0.03 2026-11-28T11:17:31Z
+
+    - The resend option writes to a file the sequences which send the
+      images again by the paths of their files (t=f, or t=t for a PNG
+      made from them, kept for the terminal to remove), for a program
+      to send later, as less after it switches to the alternate screen,
+      where kitty and Ghostty do not show the images sent before
+
 0.02 2026-11-26T06:12:56Z
 
     - The osc option puts a private OSC at the beginning of each row

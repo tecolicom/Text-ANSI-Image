@@ -1,6 +1,6 @@
 package Text::ANSI::Image;
 
-our $VERSION = "0.02";
+our $VERSION = "0.03";
 
 use v5.16;
 use warnings;
@@ -251,7 +251,7 @@ Text::ANSI::Image - images as lines of text for the terminal
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =head1 DESCRIPTION
 
